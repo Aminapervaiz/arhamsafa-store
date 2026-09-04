@@ -457,7 +457,9 @@ renderCategoryGroups();renderCart();renderProducts();
       $("checkoutContent").innerHTML=`<div style="grid-column:1/-1;text-align:center;background:#fff;border:1px solid var(--line);border-radius:18px;padding:75px 25px"><div style="font-size:54px">🌸</div><div class="eyebrow">ORDER RECEIVED</div><h2 style="color:var(--plum)">Thank you for shopping with Arhamsafa</h2><p>Order number: <b>${orderNo}</b></p><p>Payment: <b>${esc(payment)}</b></p><p style="color:var(--muted)">Your order has been received. A notification has been sent to Arhamsafa.</p><button class="primary" onclick="location.reload()">Continue Shopping</button></div>`;
     }catch(error){
       console.error("EmailJS order notification failed:",error);
-      alert("Your order email could not be sent. Please check your internet connection and try again. Your cart has NOT been cleared.");
+      const errorStatus=error && error.status ? String(error.status) : "Unknown";
+      const errorText=error && (error.text || error.message) ? String(error.text || error.message) : "No error details were returned.";
+      alert("EmailJS could not send the order.\n\nError code: " + errorStatus + "\nDetails: " + errorText + "\n\nYour cart has NOT been cleared.");
       button.disabled=false;
       button.textContent=oldButtonText;
     }
